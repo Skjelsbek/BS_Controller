@@ -2,11 +2,11 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 --use IEEE.NUMERIC_STD.ALL;
 
-entity deserializer is
+entity comparator is
 --  Port ( );
-end deserializer;
+end comparator;
 
-architecture arch of deserializer is
+architecture arch of comparator is
 
 begin
 
