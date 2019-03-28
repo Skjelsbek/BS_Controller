@@ -37,14 +37,14 @@ architecture arch of rom is
     type rom_type is array(0 to (2**ABW) - 1) of std_logic_vector(DBW - 1 downto 0);
     constant rom: rom_type :=
     (
-        SHF,  -- addr 00
+        SHF,   -- addr 00
         x"0F",  -- addr 01
         x"31",  -- addr 02
         x"F0",  -- addr 03
         x"5E",  -- addr 04
         x"97",  -- addr 05
         x"A8",  -- addr 06
-        x"2B"  -- addr 07   
+        x"2B"   -- addr 07   
     );
 
 begin
