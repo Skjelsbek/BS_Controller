@@ -11,38 +11,31 @@ architecture arch of bs_controller_tb is
     component bs_controller
         port
         (
-            load: in std_logic;
-            ab: in std_logic_vector(2 downto 0);
-            ins: out std_logic_vector(7 downto 0)
+            clk, reset: in std_logic;
+            MTMS, MTCK: out std_logic
         );
     end component bs_controller;
     
-    signal clk: std_logic := '0';
-    
-    signal s_load: std_logic;
-    signal s_ab: std_logic_vector(2 downto 0) := (others => '0');
-    signal s_ins: std_logic_vector(7 downto 0);    
+    signal s_clk, s_reset: std_logic := '1';
+    signal s_MTMS, s_MTCK: std_logic;
     
 begin
     
     UUT: bs_controller
         port map
         (
-            load => s_load,
-            ab => s_ab,
-            ins => s_ins
+            clk => s_clk,
+            reset => s_reset,
+            MTMS => s_MTMS,
+            MTCK => s_MTCK
         );
     
-    clk <= not clk after 5ns;
+    s_clk <= not s_clk after 5ns;
     
-    process(clk)
+    process
     begin
-        if (rising_edge(clk)) then
-            if (unsigned(s_ab) < 2**(s_ab'Length) - 1) then              
-                s_ab <= std_logic_vector(unsigned(s_ab) + 1);
-            end if;
-        end if;
+        wait for 10ns;
+        s_reset <= '0';
+        wait;
     end process;
-    
-    s_load <= '1' when unsigned(s_ab) mod 8 = 0 else '0';
 end arch;

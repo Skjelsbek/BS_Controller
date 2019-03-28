@@ -10,7 +10,7 @@ entity prog_cntr is
 
     Port (  rst          : in std_logic;
             inc_from_fsm : in std_logic;
-            pc_to_fsm    : out std_logic_vector(N-1 downto 0));
+            pc_to_fsm    : out std_logic_vector(N-1 downto 0):= (others => '0'));
 end prog_cntr;
   
 architecture arch of prog_cntr is
@@ -19,19 +19,15 @@ signal pc :unsigned(N-1 downto 0) := (others => '0');
   
 begin
     
-process (rst, inc_from_fsm)
+process (inc_from_fsm, rst)
 begin
     if rst = '1' then
-        pc_to_fsm <= (others => '0');
+        pc <= (others => '0');
     elsif inc_from_fsm = '1' then
-        if pc = N - 1 then
-            pc <= (others => '0');
-        else
-            pc <= pc +1;
-        end if;
+        pc <= pc + 1;
     end if;
+    
+    pc_to_fsm <= std_logic_vector(pc);
 end process;
-
-pc_to_fsm <= std_logic_vector(pc);
 
 end arch;
