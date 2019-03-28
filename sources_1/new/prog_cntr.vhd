@@ -8,8 +8,7 @@ entity prog_cntr is
             N: integer   := 8
     );
 
-    Port (  clk          : in std_logic;
-            rst          : in std_logic;
+    Port (  rst          : in std_logic;
             inc_from_fsm : in std_logic;
             pc_to_fsm    : out std_logic_vector(N-1 downto 0));
 end prog_cntr;
@@ -20,12 +19,14 @@ signal pc :unsigned(N-1 downto 0) := (others => '0');
   
 begin
     
-process (clk, rst)
+process (rst, inc_from_fsm)
 begin
     if rst = '1' then
         pc_to_fsm <= (others => '0');
-    elsif rising_edge(clk) then
-        if inc_from_fsm = '1' then
+    elsif inc_from_fsm = '1' then
+        if pc = N - 1 then
+            pc <= (others => '0');
+        else
             pc <= pc +1;
         end if;
     end if;
