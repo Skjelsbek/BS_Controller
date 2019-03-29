@@ -117,7 +117,7 @@ begin
             elsif (ins = WSI11) then
                 state_next <= WSI11_2;
             else
-                state_next <= TMS0_2;
+                state_next <= ALL_0;
             end if;
                         
         when TMS0_2 =>
@@ -135,7 +135,7 @@ begin
             MTCK <= '1';
             state_next <= ALL_0;
         when RST_2 => 
-        
+            
         when NTCK_2 =>
         when SHF_2 =>
         when SHF_3 =>
