@@ -43,6 +43,7 @@ architecture arch of bs_controller is
             inc_pc: out std_logic;
             -- shift counter
             load_sh_cntr : out std_logic;
+            rst_sh_cntr : out std_logic; -- this is fucking stupid
             decr_sh_cntr : out std_logic;
             incr_sh_cntr : out std_logic;
             s_tick_sh_cntr : in std_logic;
@@ -68,6 +69,7 @@ architecture arch of bs_controller is
     component shift_cntr is
     Port (  clk : in STD_LOGIC;
             load_N : in STD_LOGIC;
+            load_N_5 : in STD_LOGIC;
             N : in STD_LOGIC_VECTOR(7 downto 0);
             decr : in STD_LOGIC; incr : in STD_LOGIC;
             shift_cntr_s_tick : out std_logic);
@@ -76,7 +78,7 @@ architecture arch of bs_controller is
     signal s_ab, s_pc: std_logic_vector(2 downto 0);
     signal s_db, s_ins: std_logic_vector(7 downto 0);    
     signal s_inc_pc, s_load: std_logic;
-    signal load_shift_cntr : std_logic;
+    signal load_shift_cntr, rst_shift_cntr : std_logic;
     signal decr_shift_cntr, incr_shift_cntr : std_logic;
     signal shift_cntr_s_tick : std_logic;
     
@@ -120,6 +122,7 @@ begin
             pc => s_pc,
             inc_pc => s_inc_pc,
             load_sh_cntr => load_shift_cntr,
+            rst_sh_cntr => rst_shift_cntr,
             decr_sh_cntr => decr_shift_cntr,
             incr_sh_cntr => incr_shift_cntr,
             s_tick_sh_cntr => shift_cntr_s_tick,
@@ -132,6 +135,7 @@ begin
         (
             clk => clk,
             load_N => load_shift_cntr,
+            load_N_5 => rst_shift_cntr,
             N => s_db,
             decr => decr_shift_cntr, incr => incr_shift_cntr,
             shift_cntr_s_tick => shift_cntr_s_tick

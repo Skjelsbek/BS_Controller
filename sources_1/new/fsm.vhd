@@ -16,6 +16,7 @@ entity fsm is
         inc_pc: out std_logic;
         -- shift counter
         load_sh_cntr : out std_logic;
+        rst_sh_cntr : out std_logic; -- fuck it
         decr_sh_cntr : out std_logic;
         incr_sh_cntr : out std_logic;
         s_tick_sh_cntr : in std_logic;
@@ -84,6 +85,7 @@ begin
         inc_pc <= '0';
         -- shift counter --
         load_sh_cntr <= '0';
+        rst_sh_cntr <= '0';
         decr_sh_cntr <= '0';
         incr_sh_cntr <= '0';
         -- outputs --
@@ -145,7 +147,8 @@ begin
             MTCK <= '1';
             state_next <= ALL_0;
         when RST_2 => 
-
+            rst_sh_cntr <= '1';
+            state_next <= NTCK_3;
         when NTCK_2 =>
             inc_pc <= '1';
             ab <= pc;

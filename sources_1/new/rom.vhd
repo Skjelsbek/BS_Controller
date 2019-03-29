@@ -40,14 +40,16 @@ architecture arch of rom is
         TMS1,
         TMS0,
         NTCK,
-        --SHF,   -- addr 00
-        --x"0F",  -- addr 01
-        --x"31",  -- addr 02
-        x"F0",  -- addr 03
-        x"5E",  -- addr 04
-        x"97",  -- addr 05
-        x"A8",  -- addr 06
-        x"2B"   -- addr 07   
+        x"03",
+        RST,
+        --SHF, 
+        --x"0F",
+        --x"31",
+        --x"F0",  
+        --x"5E",  
+        x"97",  
+        x"A8",  
+        x"2B"      
     );
 
 begin

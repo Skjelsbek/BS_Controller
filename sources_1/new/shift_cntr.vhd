@@ -7,6 +7,7 @@ use IEEE.NUMERIC_STD.ALL;
 entity shift_cntr is
   Port (clk : in STD_LOGIC;
   		load_N : in STD_LOGIC;
+  		load_N_5 : in STD_LOGIC; -- I hate this
   		N : in STD_LOGIC_VECTOR(7 downto 0);
   		decr : in STD_LOGIC; incr : in STD_LOGIC;
   		shift_cntr_s_tick : out STD_LOGIC);
@@ -25,11 +26,13 @@ begin
 		end if;
 	end process;
 
-	process(load_n, incr, decr)
+	process(load_n, incr, decr, load_N_5)
 	begin
 		shift_cntr_s_tick <= '0';
 		if (rising_edge(load_N)) then
 			cnt_next <= unsigned(N);
+		elsif (rising_edge(load_N_5)) then
+			cnt_next <= x"05";
 		elsif (rising_edge(incr)) then
 			cnt_next <= cnt_reg+1;
 		elsif (rising_edge(decr)) then
