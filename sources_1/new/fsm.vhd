@@ -49,7 +49,7 @@ type state is
             (
                 ALL_0, ALL_1,
                 TMS0_2, TMS1_2, TMS0_3, TMS1_3,
-                RST_2, NTCK_2, NTCK_3, NTCK_4,
+                RST_2, NTCK_2_2, NTCK_2, NTCK_3, NTCK_4,
                 SHF_2, SHF_3, SHFCP_2, 
                 SSO00_2, SSO01_2, SSO10_2, SSO11_2,
                 WSI00_2, WSI01_2, WSI10_2, WSI11_2, 
@@ -147,8 +147,12 @@ begin
         when RST_2 => 
 
         when NTCK_2 =>
-            load_sh_cntr <= '1';
             inc_pc <= '1';
+            ab <= pc;
+            load <= '1';    
+            state_next <= NTCK_2_2;
+        when NTCK_2_2 =>
+            load_sh_cntr <= '1';
             if (s_tick_sh_cntr = '0') then
                 state_next <= NTCK_3;   
             else
