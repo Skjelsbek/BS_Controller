@@ -14,6 +14,11 @@ entity fsm is
         -- program counter --
         pc: in std_logic_vector(2 downto 0);
         inc_pc: out std_logic;
+        -- shift counter
+        load_sh_cntr : out std_logic;
+        decr_sh_cntr : out std_logic;
+        incr_sh_cntr : out std_logic;
+        s_tick_sh_cntr : in std_logic;
         -- outputs --
         MTMS: out std_logic;
         MTCK: out std_logic
@@ -44,7 +49,8 @@ type state is
             (
                 ALL_0, ALL_1,
                 TMS0_2, TMS1_2, TMS0_3, TMS1_3,
-                RST_2, NTCK_2, SHF_2, SHF_3, SHFCP_2, 
+                RST_2, NTCK_2, NTCK_3, NTCK_4,
+                SHF_2, SHF_3, SHFCP_2, 
                 SSO00_2, SSO01_2, SSO10_2, SSO11_2,
                 WSI00_2, WSI01_2, WSI10_2, WSI11_2, 
                 HALT_2
@@ -76,6 +82,10 @@ begin
         load <= '0';
         -- program counter --
         inc_pc <= '0';
+        -- shift counter --
+        load_sh_cntr <= '0';
+        decr_sh_cntr <= '0';
+        incr_sh_cntr <= '0';
         -- outputs --
         MTCK <= '0';
         MTMS <= '0';
@@ -135,8 +145,27 @@ begin
             MTCK <= '1';
             state_next <= ALL_0;
         when RST_2 => 
-            
+
         when NTCK_2 =>
+            load_sh_cntr <= '1';
+            inc_pc <= '1';
+            if (s_tick_sh_cntr = '0') then
+                state_next <= NTCK_3;   
+            else
+                state_next <= ALL_0;
+            end if;
+        when NTCK_3 =>
+            MTMS <= '1';
+            decr_sh_cntr <= '1';
+            state_next <= NTCK_4;
+        when NTCK_4 =>
+            MTCK <= '1'; MTMS <= '1';
+            if (s_tick_sh_cntr = '1') then
+                state_next <= ALL_0;
+            else
+                state_next <= NTCK_3;
+            end if;
+
         when SHF_2 =>
         when SHF_3 =>
         when SHFCP_2 => 
