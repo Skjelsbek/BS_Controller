@@ -32,7 +32,7 @@ begin
 		if (rising_edge(load_N)) then
 			cnt_next <= unsigned(N);
 		elsif (rising_edge(load_N_5)) then
-			cnt_next <= x"05";
+			cnt_next <= x"04"; -- 4 means 5, fuck me
 		elsif (rising_edge(incr)) then
 			cnt_next <= cnt_reg+1;
 		elsif (rising_edge(decr)) then
